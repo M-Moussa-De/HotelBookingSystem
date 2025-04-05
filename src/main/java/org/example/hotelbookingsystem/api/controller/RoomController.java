@@ -3,17 +3,33 @@ package org.example.hotelbookingsystem.api.controller;
 import org.example.hotelbookingsystem.exception.ApiResponse;
 import org.example.hotelbookingsystem.model.Room;
 import org.example.hotelbookingsystem.service.RoomService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/rooms")
 public class RoomController {
     private final RoomService roomService;
 
+    public RoomController(RoomService roomService) {
+        this.roomService = roomService;
+    }
+
+    @GetMapping
+    public ApiResponse<List<Room>> getAllRooms() {
+        return roomService.getAllRooms();
+    }
+
+    @GetMapping("/{id}")
+    public ApiResponse<Room> getRoomById(@PathVariable Long id) {
+        return roomService.getRoomById(id);
+    }
+
+    /*
     @Autowired
     public RoomController(RoomService roomService) {
         this.roomService = roomService;
@@ -36,7 +52,7 @@ public class RoomController {
             return ApiResponse.notFound("Room not found", "No room found with ID: " + id);
         }
     }
-
+*/
 
     /*
     @PostMapping

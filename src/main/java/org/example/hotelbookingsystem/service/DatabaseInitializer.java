@@ -1,9 +1,9 @@
 package org.example.hotelbookingsystem.service;
 
+import org.example.hotelbookingsystem.application.contracts.IRoomRepository;
 import org.example.hotelbookingsystem.model.Room;
 import org.example.hotelbookingsystem.model.enums.RoomStatus;
 import org.example.hotelbookingsystem.model.enums.RoomType;
-import org.example.hotelbookingsystem.repository.RoomRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
@@ -14,10 +14,10 @@ import java.time.LocalDate;
 @Component
 @EnableJpaRepositories("org.example.hotelbookingsystem.repository")
 public class DatabaseInitializer implements CommandLineRunner {
-    private final RoomRepository roomRepository;
+    private final IRoomRepository roomRepository;
 
     @Autowired
-    public DatabaseInitializer(RoomRepository roomRepository) {
+    public DatabaseInitializer(IRoomRepository roomRepository) {
         this.roomRepository = roomRepository;
     }
 
