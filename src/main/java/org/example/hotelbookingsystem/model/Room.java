@@ -7,7 +7,7 @@ import org.example.hotelbookingsystem.model.enums.RoomType;
 import java.time.LocalDate;
 
 @Entity
-@Table(name="rooms")
+@Table(name = "rooms")
 public class Room extends BaseEntity {
     @Column(nullable = false, unique = true)
     private String roomNumber;
@@ -18,7 +18,7 @@ public class Room extends BaseEntity {
     private RoomType type;
 
     @Column(nullable = false)
-    private Double pricePerNight;
+    private float pricePerNight;
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
@@ -39,7 +39,7 @@ public class Room extends BaseEntity {
     public Room() {
     }
 
-    public Room(String roomNumber, int floor, RoomType type, Double pricePerNight,
+    public Room(String roomNumber, int floor, RoomType type, float pricePerNight,
                 RoomStatus status, int maxOccupancy, String description,
                 LocalDate dateAvailable, boolean isActive) {
         this.roomNumber = roomNumber;
@@ -78,11 +78,11 @@ public class Room extends BaseEntity {
         this.type = type;
     }
 
-    public Double getPricePerNight() {
+    public float getPricePerNight() {
         return pricePerNight;
     }
 
-    public void setPricePerNight(Double pricePerNight) {
+    public void setPricePerNight(float pricePerNight) {
         this.pricePerNight = pricePerNight;
     }
 

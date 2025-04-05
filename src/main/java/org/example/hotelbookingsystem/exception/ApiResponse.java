@@ -80,6 +80,22 @@ public class ApiResponse<T> {
         return new ApiResponse<>(false, message, details, HttpStatus.NOT_FOUND.value(), null);
     }
 
+    public static <T> ApiResponse<T> update() {
+        return new ApiResponse<>(true, "Resource updated successfully", "", HttpStatus.NO_CONTENT.value(), null);
+    }
+
+    public static <T> ApiResponse<T> notModified(String message, String details) {
+        return new ApiResponse<>(true, message, details, HttpStatus.NOT_MODIFIED.value(), null);
+    }
+
+    public static <T> ApiResponse<T> delete(String message, String details) {
+        return new ApiResponse<>(true, message, details, HttpStatus.NO_CONTENT.value(), null);
+    }
+
+    public static <T> ApiResponse<T> creationFailed(String message, String details) {
+        return new ApiResponse<>(false, message, details, HttpStatus.INTERNAL_SERVER_ERROR.value(), null);
+    }
+
     public static <T> ApiResponse<T> error(String message, String details) {
         return new ApiResponse<>(false, message, details, HttpStatus.INTERNAL_SERVER_ERROR.value(), null);
     }
