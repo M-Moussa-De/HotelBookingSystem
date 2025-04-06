@@ -1,5 +1,6 @@
 package org.example.hotelbookingsystem.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import org.example.hotelbookingsystem.model.enums.RoomStatus;
 import org.example.hotelbookingsystem.model.enums.RoomType;
@@ -34,6 +35,11 @@ public class Room extends BaseEntity {
 
     @Column(nullable = false)
     private boolean isActive = true;
+
+    @ManyToOne
+    @JoinColumn(name = "hotel_id", nullable = false)
+    @JsonIgnore
+    private Hotel hotel;
 
     // Default constructor (required by JPA)
     public Room() {
@@ -125,4 +131,6 @@ public class Room extends BaseEntity {
     public void setActive(boolean active) {
         isActive = active;
     }
+    public Hotel getHotel() { return hotel; }
+    public void setHotel(Hotel hotel) { this.hotel = hotel; }
 }

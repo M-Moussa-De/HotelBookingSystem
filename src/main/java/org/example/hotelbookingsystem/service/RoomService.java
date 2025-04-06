@@ -2,7 +2,7 @@ package org.example.hotelbookingsystem.service;
 
 import jakarta.persistence.criteria.Predicate;
 import org.example.hotelbookingsystem.application.contracts.IRoomRepository;
-import org.example.hotelbookingsystem.exception.ApiResponse;
+import org.example.hotelbookingsystem.repsonse.AppResponseHandler;
 import org.example.hotelbookingsystem.model.Room;
 import org.example.hotelbookingsystem.model.enums.RoomStatus;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,39 +22,43 @@ public class RoomService {
     public RoomService(IRoomRepository roomRepository) {
         this.roomRepository = roomRepository;
     }
-    public ApiResponse<List<Room>> getAllRooms() {
+
+    public AppResponseHandler<List<Room>> getAllRooms() {
         List<Room> rooms = roomRepository.findAll();
 
         if (!rooms.isEmpty()) {
-            return ApiResponse.success(rooms);
+            return AppResponseHandler.success(rooms);
         } else {
-            return ApiResponse.notFound("Rooms not found", "No rooms are available in the system.");
+            return AppResponseHandler.notFound("No rooms are available in the system.");
         }
     }
-    public ApiResponse<Room> getRoomById(int id) {
+
+    public AppResponseHandler<Room> getRoomById(int id) {
         Optional<Room> roomOptional = roomRepository.findById(id);
 
         return roomOptional
-                .map(ApiResponse::success)
-                .orElseGet(() -> ApiResponse.notFound("Room not found", "No room found with ID: " + id));
+                .map(AppResponseHandler::success)
+                .orElseGet(() -> AppResponseHandler.notFound("No room found with ID: " + id));
     }
-    public ApiResponse<Room> createRoom(Room room) {
+
+    public AppResponseHandler<Room> createRoom(Room room) {
         try {
             Room savedRoom = roomRepository.save(room);
 
-            return ApiResponse.success(savedRoom);
+            return AppResponseHandler.success(savedRoom);
         } catch (Exception e) {
-            return ApiResponse.creationFailed("Room creation failed", "An error occurred while creating the room: " + e.getMessage());
+            return AppResponseHandler.creationFailed("An error occurred while creating the room: " + e.getMessage());
         }
     }
-    public ApiResponse<Room> updateRoom(int id, Room roomDetails) {
+
+    public AppResponseHandler<Room> updateRoom(int id, Room roomDetails) {
         Optional<Room> existingRoomOptional = roomRepository.findById(id);
 
         if (existingRoomOptional.isPresent()) {
             Room existingRoom = existingRoomOptional.get();
 
             if (isRoomDetailsEmpty(roomDetails)) {
-                return ApiResponse.notModified("No data provided", "The request body is empty, so no update was performed.");
+                return AppResponseHandler.notModified("The request body is empty, so no update was performed.");
             }
 
             boolean isUpdated = false;
@@ -94,31 +98,32 @@ public class RoomService {
 
             // If no changes were made, return a response indicating no update was necessary
             if (!isUpdated) {
-                return ApiResponse.notModified("No changes detected", "The provided room details are identical to the existing room.");
+                return AppResponseHandler.notModified("The provided room details are identical to the existing room.");
             }
 
             // Save the updated room back to the repository
             Room updatedRoom = roomRepository.save(existingRoom);
-            return ApiResponse.update();
+            return AppResponseHandler.update();
 
         } else {
-            return ApiResponse.notFound("Room not found", "No room found with ID: " + id);
+            return AppResponseHandler.notFound("No room found with ID: " + id);
         }
     }
-    public ApiResponse<Void> deleteRoom(int id) {
+
+    public AppResponseHandler<Void> deleteRoom(int id) {
         Optional<Room> roomOptional = roomRepository.findById(id);
         if (roomOptional.isPresent()) {
             roomRepository.delete(roomOptional.get());
-            return ApiResponse.delete("Room deleted successfully", "Room with ID " + id + " has been successfully deleted.");
+            return AppResponseHandler.delete("Room with ID " + id + " has been successfully deleted.");
         } else {
-            return ApiResponse.notFound("Room not found", "No room found with ID: " + id);
+            return AppResponseHandler.notFound("No room found with ID: " + id);
         }
     }
 
     //Filters
-    public ApiResponse<List<Room>> filterRooms(String roomType, Double minPrice, Double maxPrice, Integer floor,
-                                               Integer maxOccupancy, RoomStatus roomStatus, LocalDate dateAvailableFrom,
-                                               LocalDate dateAvailableTo) {
+    public AppResponseHandler<List<Room>> filterRooms(String roomType, Double minPrice, Double maxPrice, Integer floor,
+                                                      Integer maxOccupancy, RoomStatus roomStatus, LocalDate dateAvailableFrom,
+                                                      LocalDate dateAvailableTo) {
 
         List<Room> rooms = roomRepository.findAll((Specification<Room>) (root, query, criteriaBuilder) -> {
             Predicate predicate = criteriaBuilder.conjunction();
@@ -154,15 +159,15 @@ public class RoomService {
 
         // Return an ApiResponse with the rooms found
         if (!rooms.isEmpty()) {
-            return ApiResponse.success(rooms);
+            return AppResponseHandler.success(rooms);
         } else {
-            return ApiResponse.notFound("No rooms found", "No rooms match the search criteria.");
+            return AppResponseHandler.notFound("No rooms match the search criteria.");
         }
     }
 
     // Helper method to check if the roomDetails object is empty
     private boolean isRoomDetailsEmpty(Room roomDetails) {
-        return  roomDetails.getFloor() == 0 &&
+        return roomDetails.getFloor() == 0 &&
                 roomDetails.getType() == null &&
                 roomDetails.getPricePerNight() == 0 &&
                 roomDetails.getRoomNumber() == null &&
