@@ -11,4 +11,5 @@ public abstract class ErrorMessage {
     public static final String REQUEST_TIMEOUT = "Request timeout";
     public static final String NOT_IMPLEMENTED = "Not implemented";
     public static final String CREATION_FAILED = "Resource creation failed. Please try again.";
+    public static final String SEEDING_SKIPPED = "Resource data already exists, skipping seeding.";
 }
