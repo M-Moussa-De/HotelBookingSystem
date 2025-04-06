@@ -10,11 +10,11 @@ public class DatabaseConfig {
         this.password = password;
     }
 
-    public Object getUrl() {
+    public String getUrl() {
         return url;
     }
 
-    public Object getUsername() {
+    public String getUsername() {
         return username;
     }
 }
