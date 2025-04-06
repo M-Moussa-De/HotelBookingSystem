@@ -1,9 +1,9 @@
-package org.example.hotelbookingsystem.api.controller;
+package org.example.hotelbookingsystem.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.example.hotelbookingsystem.exception.ApiResponse;
+import org.example.hotelbookingsystem.repsonse.AppResponseHandler;
 import org.example.hotelbookingsystem.model.Room;
 import org.example.hotelbookingsystem.model.enums.RoomStatus;
 import org.example.hotelbookingsystem.service.RoomService;
@@ -26,26 +26,26 @@ public class RoomController {
 
     @Operation(summary = "Get all rooms", description = "Fetches a list of all available rooms")
     @GetMapping
-    public ApiResponse<List<Room>> getAllRooms() {
+    public AppResponseHandler<List<Room>> getAllRooms() {
         return roomService.getAllRooms();
     }
 
     @Operation(summary = "Get room by ID", description = "Fetches a specific room by its ID")
     @GetMapping("/{id}")
-    public ApiResponse<Room> getRoomById(@PathVariable int id) {
+    public AppResponseHandler<Room> getRoomById(@PathVariable int id) {
         return roomService.getRoomById(id);
     }
 
     @Operation(summary = "Create a new room", description = "Creates a new room")
     @PostMapping
-    public ApiResponse<Room> createRoom(@RequestBody Room room) {
+    public AppResponseHandler<Room> createRoom(@RequestBody Room room) {
         return roomService.createRoom(room);
     }
 
     @Operation(summary = "Update a room", description = "Updates an existing room with the provided details. If the room exists, it is updated."
     )
     @PutMapping("/{id}")
-    public ApiResponse<Room> updateRoom(@PathVariable int id, @RequestBody Room room) {
+    public AppResponseHandler<Room> updateRoom(@PathVariable int id, @RequestBody Room room) {
         return roomService.updateRoom(id, room);
     }
 
@@ -53,13 +53,13 @@ public class RoomController {
             description = "Deletes a room from the system by its ID. Returns success if the room is deleted, or an error if the room is not found."
     )
     @DeleteMapping("/{id}")
-    public ApiResponse<Void> deleteRoom(@PathVariable int id) {
+    public AppResponseHandler<Void> deleteRoom(@PathVariable int id) {
         return roomService.deleteRoom(id);
     }
 
     @Operation(summary = "Filter rooms", description = "Filter rooms based on various criteria like room type, price, floor, etc.")
     @GetMapping("/filter")
-    public ApiResponse<List<Room>> filterRooms(
+    public AppResponseHandler<List<Room>> filterRooms(
             @Parameter(description = "The type of room to search for", example = "SINGLE") @RequestParam(required = false) String roomType,
             @Parameter(description = "The minimum price of the room", example = "50.0") @RequestParam(required = false) Double minPrice,
             @Parameter(description = "The maximum price of the room", example = "200.0") @RequestParam(required = false) Double maxPrice,
