@@ -1,14 +1,11 @@
 package org.example.hotelbookingsystem.exception;
 
-public class ResourceNotFoundException extends RuntimeException {
-    private final String details;
-
-    public ResourceNotFoundException(String message, String details) {
+public class ResourceNotFoundException extends BaseException {
+        public ResourceNotFoundException(String message) {
         super(message);
-        this.details = details;
     }
 
-    public String getDetails() {
-        return details;
+    public ResourceNotFoundException(String message, String details) {
+        super(message, details);
     }
 }
