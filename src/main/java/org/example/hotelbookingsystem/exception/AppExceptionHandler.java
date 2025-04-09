@@ -22,16 +22,16 @@ public class AppExceptionHandler {
     private static final Logger logger = LoggerFactory.getLogger(AppExceptionHandler.class);
 
     /**
-     * Handles all generic exceptions.
+     * Handles all runtime generic exceptions.
      *
      * @param e the exception that was thrown
      * @return an {@link AppResponseHandler} containing an error message and status code 500
      */
-    @ExceptionHandler(Exception.class)
+    @ExceptionHandler(RuntimeException.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ResponseBody
-    public AppResponseHandler<?> handleException(Exception e) {
-        logger.error(ErrorMessage.INTERNAL_SERVER_ERROR, e);
+    public AppResponseHandler<?> handleRuntimeException(RuntimeException e) {
+        logger.error("Unexpected error occurred: {}", e.getMessage(), e);
         return AppResponseHandler.error(ErrorMessage.INTERNAL_SERVER_ERROR, e.getMessage());
     }
 
