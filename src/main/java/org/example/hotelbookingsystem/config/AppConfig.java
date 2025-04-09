@@ -10,13 +10,13 @@ import org.springframework.context.annotation.Configuration;
     @Value("${APP_NAME}")
     private String appName;
 
-    @Value("${DB_URL}")
+    @Value("${spring.datasource.url}")
     private String dbUrl;
 
-    @Value("${DB_USERNAME}")
+    @Value("${spring.datasource.username}")
     private String dbUsername;
 
-    @Value("${DB_PASSWORD}")
+    @Value("${spring.datasource.password}")
     private String dbPassword;
 
     @Bean
