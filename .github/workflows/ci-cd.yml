@@ -12,18 +12,18 @@ jobs:
 
     services:
       postgres:
-        image: postgres:latest
+        image: postgres:latest  # Ensure we're using the latest PostgreSQL
         ports:
-          - 5432:5432
+          - 5432:5432  # Expose the port for PostgreSQL
         env:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: mm
           POSTGRES_DB: HotelBookingSystem
         options: >
-          --health-cmd="pg_isready -U postgres" 
-          --health-interval=10s 
-          --health-timeout=5s 
-          --health-retries=5
+          --health-cmd="pg_isready -U postgres"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5  # Fixed: no newline or extra space here
 
     steps:
       - name: Checkout code
@@ -43,5 +43,10 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-maven-
 
+      - name: Wait for PostgreSQL to be ready
+        run: |
+          echo "Waiting for PostgreSQL to be ready..."
+          sleep 10s  # Wait for 10 seconds to ensure the DB is up
+
       - name: Build with Maven
-        run: mvn clean install -Dspring.profiles.active=prod  # Specify the dev profile
+        run: mvn clean install -Dspring.profiles.active=prod  # Specify the prod profile
