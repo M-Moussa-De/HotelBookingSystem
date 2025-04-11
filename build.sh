@@ -10,9 +10,9 @@ if [ $? -ne 0 ]; then
   exit 1
 fi
 
-# Bring Docker Compose services back up
-echo "Docker Compose is starting up..."
-docker-compose up --build --detach
+# Bring Docker Compose services back up in production mode
+echo "Docker Compose is starting up in production mode..."
+SPRING_PROFILE=prod docker-compose up --build
 
 # Check if the up command was successful
 if [ $? -ne 0 ]; then
@@ -20,4 +20,4 @@ if [ $? -ne 0 ]; then
   exit 1
 fi
 
-echo "Docker Compose is up and running in the background."
+echo "Docker Compose is up and running in the background with production profile."

@@ -6,18 +6,17 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
  public class AppConfig {
+   @Value("${spring.application.name}")
+   private String appName;
 
-    @Value("${APP_NAME}")
-    private String appName;
+   @Value("${spring.datasource.url}")
+   private String dbUrl;
 
-    @Value("${spring.datasource.url}")
-    private String dbUrl;
+   @Value("${spring.datasource.username}")
+   private String dbUsername;
 
-    @Value("${spring.datasource.username}")
-    private String dbUsername;
-
-    @Value("${spring.datasource.password}")
-    private String dbPassword;
+   @Value("${spring.datasource.password}")
+   private String dbPassword;
 
     @Bean
     public String appInfo() {

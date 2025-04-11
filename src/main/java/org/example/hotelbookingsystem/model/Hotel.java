@@ -1,14 +1,12 @@
 package org.example.hotelbookingsystem.model;
 
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 import org.example.hotelbookingsystem.model.enums.Address;
 
 import java.util.Set;
 
 @Entity
+@Table(name = "hotels")
 public class Hotel extends BaseEntity {
     @Column(nullable = false)
     private String name;
