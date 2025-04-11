@@ -19,11 +19,7 @@ jobs:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: mm
           POSTGRES_DB: HotelBookingSystem
-        options: >
-          --health-cmd="pg_isready -U postgres"
-          --health-interval=10s
-          --health-timeout=5s
-          --health-retries=3
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
