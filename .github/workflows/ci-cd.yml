@@ -12,9 +12,9 @@ jobs:
 
     services:
       postgres:
-        image: postgres:latest  # Ensure we're using the latest PostgreSQL
+        image: postgres:latest
         ports:
-          - 5432:5432  # Expose the port for PostgreSQL
+          - 5432:5432
         env:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: mm
@@ -49,4 +49,4 @@ jobs:
           sleep 10s  # Wait for 10 seconds to ensure the DB is up
 
       - name: Build with Maven
-        run: mvn clean install -Dspring.profiles.active=prod  # Specify the prod profile
+        run: mvn clean install -Dspring.profiles.active=prod
