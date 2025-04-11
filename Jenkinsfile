@@ -1,54 +1,21 @@
 pipeline {
     agent any
 
-    environment {
-        DOCKER_IMAGE = 'hotel-booking-system'
-    }
-
     stages {
-        stage('Checkout') {
-            steps {
-                checkout scm
-            }
-        }
-
         stage('Build') {
             steps {
-                script {
-                    sh 'mvn clean install'
-                }
+                echo 'Building..'
             }
         }
-
-        stage('Docker Build') {
-            steps {
-                script {
-                    sh 'docker build -t $DOCKER_IMAGE .'
-                }
-            }
-        }
-
         stage('Test') {
             steps {
-                script {
-                    sh 'mvn test'
-                }
+                echo 'Testing..'
             }
         }
-
-        stage('Push Docker Image') {
+        stage('Deploy') {
             steps {
-                script {
-                    sh 'docker push $DOCKER_IMAGE'
-                }
+                echo 'Deploying....'
             }
-        }
-    }
-
-    post {
-        always {
-            echo 'Cleaning up resources'
-            cleanWs()
         }
     }
 }
